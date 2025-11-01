@@ -41,6 +41,18 @@ const tasksList = [
 // const tasksList = null;
 // const tasksList = [];
 
+const colors: Record<number, string> = {
+  0: "#ffffff",
+  1: "#ffd7b5",
+  2: "#ffb38a",
+  3: "#ff9248",
+  4: "#ff6700",
+};
+
+function currentColor(priority: number): string {
+  return colors[priority] || "#ffffff";
+}
+
 function App() {
   if (tasksList === null) {
     return <h1>Загрузка...</h1>;
@@ -57,16 +69,7 @@ function App() {
             <li
               key={task.id}
               style={{
-                backgroundColor:
-                  task.priority === 0
-                    ? "#ffffff"
-                    : task.priority === 1
-                    ? "#ffd7b5"
-                    : task.priority === 2
-                    ? "#ffb38a"
-                    : task.priority === 3
-                    ? "#ff9248"
-                    : "#ff6700",
+                backgroundColor: currentColor(task.priority),
               }}>
               <div className="task__wrapper">
                 <div
@@ -75,7 +78,7 @@ function App() {
                   }}>
                   {task.title}
                 </div>
-                <input type="checkbox" checked={task.isDone} />
+                <input type="checkbox" defaultChecked={task.isDone} />
               </div>
               <div>Добавлено: {task.addedAt}</div>
             </li>

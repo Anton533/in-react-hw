@@ -12,5 +12,3 @@ const newArray = employees.map((ele) => {
     totalSalary: ((ele.salary * 5) / 100) * ele.experience + ele.salary,
   };
 });
-
-console.log(newArray);
