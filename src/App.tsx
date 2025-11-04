@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 
 const tasksList = [
@@ -38,9 +39,6 @@ const tasksList = [
   },
 ];
 
-// const tasksList = null;
-// const tasksList = [];
-
 const colors: Record<number, string> = {
   0: "#ffffff",
   1: "#ffd7b5",
@@ -54,6 +52,8 @@ function currentColor(priority: number): string {
 }
 
 function App() {
+  const [selectedTaskId, setSelectedTaskId] = useState();
+
   if (tasksList === null) {
     return <h1>Загрузка...</h1>;
   }
@@ -63,6 +63,12 @@ function App() {
   return (
     <>
       <h1>Список дел:</h1>
+      <button
+        onClick={() => {
+          setSelectedTaskId(null);
+        }}>
+        Reset selection
+      </button>
       <ul>
         {tasksList.map((task) => {
           return (
@@ -70,6 +76,15 @@ function App() {
               key={task.id}
               style={{
                 backgroundColor: currentColor(task.priority),
+                border:
+                  task.id === selectedTaskId
+                    ? "2px solid red"
+                    : "2px solid transparent",
+              }}
+              onClick={() => {
+                // alert(task.id);
+                setSelectedTaskId(task.id);
+                console.log(selectedTaskId);
               }}>
               <div className="task__wrapper">
                 <div
