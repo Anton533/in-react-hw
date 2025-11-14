@@ -90,6 +90,7 @@ ul {
 }
 
 .task-details {
+  min-height: 180px;
   max-height: fit-content;
   border: 2px solid white;
   padding: 10px;

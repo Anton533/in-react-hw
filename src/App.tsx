@@ -197,22 +197,21 @@ function App() {
           <h2 className="task-details__title">Task details</h2>
           <ul className="task-details__list">
             {!selectedTask && "Task is not selected"}
+
             {selectedTask && !details && "Loading..."}
-            <li>
-              {selectedTask &&
-                details &&
-                "Title: " + selectedTask.attributes.title}
-            </li>
-            <li>
-              {selectedTask &&
-                details &&
-                "Board title: " + details.attributes.boardTitle}
-            </li>
-            <li>
-              {selectedTask &&
-                details &&
-                "Description: " + details.attributes.description}
-            </li>
+
+            {selectedTask &&
+              details &&
+              details.id !== selectedTaskId &&
+              "Loading..."}
+
+            {selectedTask && details && details.id === selectedTaskId && (
+              <>
+                <li>{"Title: " + selectedTask.attributes.title}</li>
+                <li>{"Board title: " + details.attributes.boardTitle}</li>
+                <li>{"Description: " + details.attributes.description}</li>
+              </>
+            )}
           </ul>
         </div>
       </div>
