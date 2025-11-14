@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { InputTitle } from "./components/Test";
 
 const tasksResponse = [
   {
@@ -101,8 +102,7 @@ function App() {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
   const [details, setDetails] = useState(null);
-
-  console.log(details);
+  const [boardId, setBoardId] = useState(null);
 
   useEffect(() => {
     fetch("https://trelly.it-incubator.app/api/1.0/boards/tasks", {
@@ -115,7 +115,23 @@ function App() {
     // setTasks(tasksResponse);
   }, []);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (!selectedTaskId) return;
+    fetch(
+      "https://trelly.it-incubator.app/api/1.0/boards/" +
+        boardId +
+        "/tasks/" +
+        boardId,
+      {
+        headers: {
+          "api-key": "60d7ad4c-190a-4d97-87b6-38c40e7c1eec",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((json) => setDetails(json.data));
+    // setDetails(detailsResponse.data);
+  }, [selectedTaskId, boardId]);
 
   if (tasks === null) {
     return <h1>Загрузка...</h1>;
@@ -125,6 +141,7 @@ function App() {
   }
   return (
     <>
+      <InputTitle />
       <h1 className="title">Список дел:</h1>
       <button
         onClick={() => {
@@ -149,21 +166,7 @@ function App() {
                 onClick={() => {
                   setSelectedTaskId(task.id);
                   setSelectedTask(task);
-
-                  fetch(
-                    "https://trelly.it-incubator.app/api/1.0/boards/" +
-                      task.id +
-                      "/tasks/" +
-                      task.id,
-                    {
-                      headers: {
-                        "api-key": "60d7ad4c-190a-4d97-87b6-38c40e7c1eec",
-                      },
-                    }
-                  )
-                    .then((res) => res.json())
-                    .then((json) => setDetails(json.data));
-                  // setDetails(detailsResponse.data);
+                  setBoardId(task.id);
                 }}>
                 <div className="task__wrapper">
                   <div style={{ display: "flex", gap: "5px" }}>
