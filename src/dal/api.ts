@@ -1,6 +1,56 @@
-import { useEffect, useState } from "react";
+// const detailsResponse = {
+//   data: {
+//     id: "07b51554-f680-4b5f-8e81-dbcbe32d08cc",
+//     type: "tasks",
+//     attributes: {
+//       title: "html",
+//       order: -4,
+//       deadline: "2025-06-26T11:40:34.962Z",
+//       startDate: null,
+//       addedAt: "2025-08-27T17:51:48.031Z",
+//       priority: 1,
+//       status: 0,
+//       updatedAt: "2025-08-27T17:51:52.473Z",
+//       boardId: "e11c9480-dd73-4b08-a5fd-452465467805",
+//       boardTitle: "newt1",
+//       description: "Lorem ipsum dolor sit amet consectetur!",
+//       attachments: [],
+//     },
+//   },
+// };
 
-import TaskItem from "./TaskItem.tsx";
+type GetTaskDetailsOutput = {
+  data: TaskDetailsData;
+};
+
+export type TaskDetailsData = {
+  id: string;
+  type: string;
+  attributes: TaskDetailsAttributesData;
+};
+
+type TaskDetailsAttributesData = {
+  title: string;
+  boardTitle: string;
+  description: string | null;
+};
+
+export const getTask = (boardId: string | null) => {
+  const promise: Promise<GetTaskDetailsOutput> = fetch(
+    "https://trelly.it-incubator.app/api/1.0/boards/" +
+      boardId +
+      "/tasks/" +
+      boardId,
+    {
+      headers: {
+        "api-key": "60d7ad4c-190a-4d97-87b6-38c40e7c1eec",
+      },
+    }
+  ).then((res) => res.json());
+  // setDetails(detailsResponse.data);
+
+  return promise;
+};
 
 // const tasksResponse = [
 //   {
@@ -65,12 +115,11 @@ import TaskItem from "./TaskItem.tsx";
 //   },
 // ];
 
-type Props = {
-  selectedTaskId: string | null;
-  onTaskSelect: (taskId: string | null, boardId: string | null) => void;
+type GetTaskListOutput = {
+  data: Array<TasksListData>;
 };
 
-type TasksListData = {
+export type TasksListData = {
   id: string;
   type: string;
   attributes: TasksListAttributesData;
@@ -86,54 +135,15 @@ export type TasksListAttributesData = {
   attachmentsCount: number;
 };
 
-function TasksList({ selectedTaskId, onTaskSelect }: Props) {
-  const [tasks, setTasks] = useState<Array<TasksListData> | null>(null);
-
-  useEffect(() => {
-    fetch("https://trelly.it-incubator.app/api/1.0/boards/tasks", {
+export const getTasksList = () => {
+  const promise: Promise<GetTaskListOutput> = fetch(
+    "https://trelly.it-incubator.app/api/1.0/boards/tasks",
+    {
       headers: {
         "api-key": "60d7ad4c-190a-4d97-87b6-38c40e7c1eec",
       },
-    })
-      .then((res) => res.json())
-      .then((json) => setTasks(json.data));
-    // setTasks(tasksResponse);
-  }, []);
+    }
+  ).then((res) => res.json());
 
-  if (tasks === null) {
-    return <h1>Загрузка...</h1>;
-  }
-  if (tasks.length === 0) {
-    return <h1>Задачи отсутствуют</h1>;
-  }
-
-  const handleClick = (taskId: string | null, boardId: string | null) => {
-    onTaskSelect?.(taskId, boardId);
-  };
-
-  return (
-    <div>
-      <button
-        onClick={() => {
-          handleClick(null, null);
-        }}>
-        Reset selection
-      </button>
-      <ul>
-        {tasks.map((task) => {
-          return (
-            <TaskItem
-              key={task.id}
-              taskId={task.id}
-              taskAttributes={task.attributes}
-              onTaskSelected={handleClick}
-              isSelected={task.id === selectedTaskId}
-            />
-          );
-        })}
-      </ul>
-    </div>
-  );
-}
-
-export default TasksList;
+  return promise;
+};

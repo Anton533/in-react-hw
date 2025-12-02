@@ -1,4 +1,4 @@
-import type { TasksListAttributesData } from "./TasksList";
+import type { TasksListAttributesData } from "../dal/api.ts";
 
 type Props = {
   taskId: string;
