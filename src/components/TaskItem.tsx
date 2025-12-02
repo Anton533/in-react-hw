@@ -1,4 +1,18 @@
-function TasckItem({ taskId, taskAttributes, onTaskSelected, isSelected }) {
+import type { TasksListAttributesData } from "./TasksList";
+
+type Props = {
+  taskId: string;
+  taskAttributes: TasksListAttributesData;
+  onTaskSelected: (taskId: string | null, boardId: string | null) => void;
+  isSelected: boolean;
+};
+
+function TasckItem({
+  taskId,
+  taskAttributes,
+  onTaskSelected,
+  isSelected,
+}: Props) {
   const colors: Record<number, string> = {
     0: "#ffffff",
     1: "#ffd7b5",
@@ -6,6 +20,7 @@ function TasckItem({ taskId, taskAttributes, onTaskSelected, isSelected }) {
     3: "#ff9248",
     4: "#ff6700",
   };
+
   function currentColor(priority: number): string {
     return colors[priority] || "#ffffff";
   }

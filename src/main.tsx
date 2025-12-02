@@ -5,4 +5,8 @@ import MainPage from "./components/MainPage.tsx";
 const rootEle = document.getElementById("root");
 const reactRoot = createRoot(rootEle!);
 
-reactRoot.render(<MainPage />);
+reactRoot.render(
+  <>
+    <MainPage />
+  </>
+);

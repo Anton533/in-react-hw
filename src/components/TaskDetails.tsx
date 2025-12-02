@@ -21,8 +21,25 @@ import { useState, useEffect } from "react";
 //   },
 // };
 
-export default function TaskDetails({ selectedTaskId, boardId }) {
-  const [details, setDetails] = useState(null);
+type Props = {
+  selectedTaskId: string | null;
+  boardId: string | null;
+};
+
+type TaskDetailsData = {
+  id: string;
+  type: string;
+  attributes: TaskDetailsAttributesData;
+};
+
+type TaskDetailsAttributesData = {
+  title: string;
+  boardTitle: string;
+  description: string | null;
+};
+
+export default function TaskDetails({ selectedTaskId, boardId }: Props) {
+  const [details, setDetails] = useState<TaskDetailsData | null>(null);
 
   useEffect(() => {
     if (!selectedTaskId) return;

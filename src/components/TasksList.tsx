@@ -65,8 +65,29 @@ import TaskItem from "./TaskItem.tsx";
 //   },
 // ];
 
-function TasksList({ selectedTaskId, onTaskSelect }) {
-  const [tasks, setTasks] = useState(null);
+type Props = {
+  selectedTaskId: string | null;
+  onTaskSelect: (taskId: string | null, boardId: string | null) => void;
+};
+
+type TasksListData = {
+  id: string;
+  type: string;
+  attributes: TasksListAttributesData;
+};
+
+export type TasksListAttributesData = {
+  id: string;
+  title: string;
+  boardId: string;
+  status: number;
+  priority: number;
+  addedAt: string;
+  attachmentsCount: number;
+};
+
+function TasksList({ selectedTaskId, onTaskSelect }: Props) {
+  const [tasks, setTasks] = useState<Array<TasksListData> | null>(null);
 
   useEffect(() => {
     fetch("https://trelly.it-incubator.app/api/1.0/boards/tasks", {
@@ -86,7 +107,7 @@ function TasksList({ selectedTaskId, onTaskSelect }) {
     return <h1>Задачи отсутствуют</h1>;
   }
 
-  const handleClick = (taskId, boardId) => {
+  const handleClick = (taskId: string | null, boardId: string | null) => {
     onTaskSelect?.(taskId, boardId);
   };
 

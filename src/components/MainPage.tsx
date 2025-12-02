@@ -4,10 +4,13 @@ import TasksList from "./TasksList.tsx";
 import TaskDetails from "./TaskDetails.tsx";
 
 function MainPage() {
-  const [taskId, setTaskId] = useState(null);
-  const [boardId, setBoardId] = useState(null);
+  const [taskId, setTaskId] = useState<string | null>(null);
+  const [boardId, setBoardId] = useState<string | null>(null);
 
-  const handleTaskSelect = (taskId, boardId) => {
+  const handleTaskSelect = (
+    taskId: string | null,
+    boardId: string | null
+  ): void => {
     setTaskId(taskId);
     setBoardId(boardId);
   };
