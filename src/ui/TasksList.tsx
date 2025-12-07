@@ -1,21 +1,13 @@
-import { useEffect, useState } from "react";
-
 import TaskItem from "./TaskItem.tsx";
-import type { TasksListData } from "../dal/api.ts";
-import { getTasksList } from "../dal/api.ts";
 
+import { useTasks } from "../bll/useTasks.ts";
 type Props = {
   selectedTaskId: string | null;
   onTaskSelect: (taskId: string | null, boardId: string | null) => void;
 };
 
 function TasksList({ selectedTaskId, onTaskSelect }: Props) {
-  const [tasks, setTasks] = useState<Array<TasksListData> | null>(null);
-
-  useEffect(() => {
-    getTasksList().then((json) => setTasks(json.data));
-    // setTasks(tasksResponse);
-  }, []);
+  const { tasks } = useTasks();
 
   if (tasks === null) {
     return <h1>Загрузка...</h1>;

@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import type { TaskDetailsData } from "../dal/api.ts";
-import { getTask } from "../dal/api.ts";
+import { useTaskDetails } from "../bll/useTaskDetails";
 
 type Props = {
   selectedTaskId: string | null;
@@ -8,13 +6,7 @@ type Props = {
 };
 
 export default function TaskDetails({ selectedTaskId, boardId }: Props) {
-  const [details, setDetails] = useState<TaskDetailsData | null>(null);
-
-  useEffect(() => {
-    if (!selectedTaskId) return;
-
-    getTask(boardId).then((json) => setDetails(json.data));
-  }, [selectedTaskId, boardId]);
+  const { details } = useTaskDetails(selectedTaskId, boardId);
 
   return (
     <div className="flex">
